@@ -26,14 +26,18 @@ function networkUI (state) {
     }
   }
 
+  if (typeof state.opts.exit === 'number') {
+    title = `dat synced, exiting in ${state.opts.exit} seconds.`
+  }
+
   if (!stats.downloaded || !stats.length) {
     return '' // no metadata yet
   }
 
-  return output`
+  return output(`
     ${title}
     ${downBar(stats.downloaded)}
-  `
+  `)
 
   function makeBar () {
     var total = stats.length

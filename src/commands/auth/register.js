@@ -1,8 +1,3 @@
-var prompt = require('prompt')
-var output = require('neat-log/output')
-var chalk = require('chalk')
-var Registry = require('../../registry')
-
 module.exports = {
   name: 'register',
   command: register,
@@ -10,7 +5,7 @@ module.exports = {
     'Register with a public Dat registry',
     'Usage: dat register [<registry>]',
     '',
-    'Register with datproject.org or other registries to publish your dats.'
+    'Register with datbase.org or other registries to publish your dats.'
   ].join('\n'),
   options: [
     {
@@ -21,20 +16,25 @@ module.exports = {
 }
 
 function register (opts) {
+  var prompt = require('prompt')
+  var output = require('neat-log/output')
+  var chalk = require('chalk')
+  var Registry = require('../../registry')
+
   // TODO: check if logged in?
   if (opts._[0]) opts.server = opts._[0]
-  var welcome = output`
+  var welcome = output(`
     Welcome to ${chalk.green(`dat`)} program!
     Create a new account with a Dat registry.
 
-  `
+  `)
   console.log(welcome)
 
   var schema = {
     properties: {
       server: {
         description: chalk.magenta('Dat registry'),
-        default: opts.server || 'datproject.org',
+        default: opts.server || 'datbase.org',
         required: true
       },
       username: {
@@ -76,11 +76,11 @@ function register (opts) {
     }, function (err) {
       if (err && err.message) return exitErr(err.message)
       else if (err) return exitErr(err.toString())
-      console.log(output`
+      console.log(output(`
         Created account on ${chalk.green(opts.server)}!
 
         Login to start publishing: ${chalk.green(`dat login`)}
-      `)
+      `))
       process.exit(0)
     })
   }

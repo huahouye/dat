@@ -6,16 +6,12 @@ var rimraf = require('rimraf')
 var encoding = require('dat-encoding')
 var recursiveReadSync = require('recursive-readdir-sync')
 var Dat = require('dat-node')
-var ram = require('random-access-memory')
-var hypercore = require('hypercore')
-var swarm = require('hyperdiscovery')
 
 module.exports.matchLink = matchDatLink
 module.exports.isDir = isDir
 module.exports.testFolder = newTestFolder
 module.exports.datJson = datJson
 module.exports.shareFixtures = shareFixtures
-module.exports.shareFeed = shareFeed
 module.exports.fileList = fileList
 
 function shareFixtures (opts, cb) {
@@ -30,7 +26,7 @@ function shareFixtures (opts, cb) {
     dat.trackStats()
     dat.joinNetwork()
     if (opts.import === false) return cb(null, dat)
-    dat.importFiles({watch: false}, function (err) {
+    dat.importFiles({ watch: false }, function (err) {
       if (err) throw err
       cb(null, dat)
     })
@@ -77,23 +73,5 @@ function isDir (dir) {
     return fs.statSync(dir).isDirectory()
   } catch (e) {
     return false
-  }
-}
-
-function shareFeed (cb) {
-  var sw
-  var feed = hypercore(ram)
-  feed.append('hello world', function (err) {
-    if (err) throw err
-    cb(null, encoding.toStr(feed.key), close)
-  })
-  feed.ready(function () {
-    sw = swarm(feed)
-  })
-
-  function close (cb) {
-    feed.close(function () {
-      sw.close(cb)
-    })
   }
 }

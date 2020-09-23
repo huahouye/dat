@@ -2,6 +2,7 @@ var bytes = require('bytes').parse
 var speed = require('speedometer')
 var throttle = require('throttle')
 var pump = require('pump')
+var debug = require('debug')('dat')
 var xtend = Object.assign
 
 module.exports = trackNetwork
@@ -24,6 +25,19 @@ function trackNetwork (state, bus) {
     }
     var network = state.dat.joinNetwork(opts, function () {
       bus.emit('network:callback')
+    })
+
+    network.on('error', function (err) {
+      if (err.code === 'EADDRINUSE') {
+        if (opts.port) {
+          bus.emit('exit:warn', `Specified port (${opts.port}) in use. Please use another port.`)
+        } else {
+          debug(err.message + ' trying random port')
+        }
+      } else {
+        debug('network error:', err.message)
+        // TODO return bus.emit('exit:error', err)
+      }
     })
     state.network = xtend(network, state.network)
     bus.emit('dat:network')

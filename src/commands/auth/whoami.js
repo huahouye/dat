@@ -1,7 +1,3 @@
-var output = require('neat-log/output')
-var chalk = require('chalk')
-var Registry = require('../../registry')
-
 module.exports = {
   name: 'whoami',
   command: whoami,
@@ -20,6 +16,10 @@ module.exports = {
 }
 
 function whoami (opts) {
+  var output = require('neat-log/output')
+  var chalk = require('chalk')
+  var Registry = require('../../registry')
+
   if (opts._[0]) opts.server = opts._[0]
 
   var client = Registry(opts)
@@ -28,7 +28,7 @@ function whoami (opts) {
     if (!opts.server) return exitErr('No login information found.')
     return exitErr('No login information found for that server.')
   }
-  console.log(output`
+  console.log(output(`
     Your active Dat registry information:
 
     ---
@@ -39,7 +39,7 @@ function whoami (opts) {
 
     Change your registry by logging in again:
     ${chalk.dim.green('dat login <registry-url>')}
-  `)
+  `))
   process.exit(0)
 }
 

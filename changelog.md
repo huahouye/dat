@@ -1,9 +1,41 @@
 # Change Log
 All notable changes to this project will be documented in this file.
-This project adheres to [Semantic Versioning](http://semver.org/).
+This project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
-*Note: unreleased changes are added here.*
+
+## 13.13.0 
+* `dat pull --exit=NN` exits after `NN` number of seconds, when there are no updates to sync.
+
+## 13.9.0 - 2017-10-11
+
+### Changed
+* Use [datbase.org](https://datbase.org) as default registry (instead of datproject.org)
+
+## 13.8.2 - 2017-09-28
+
+### Fixed
+* Error not being handled (https://github.com/datproject/dat/issues/838)
+* Set `opts.debug` properly when using `DEBUG` that isn't `dat`.
+* Move discovery key to option in `dat keys` (#869)
+
+## 13.8.1 - 2017-08-04
+
+### Fixes
+* Error not being handled (https://github.com/datproject/dat/issues/838)
+
+## 13.8.0 - 2017-08-04
+
+With this release, we are adding an exciting feature that really showcases how powerful Dat is, selective sync. Using the CLI you can now specify which files you want to download either with an option or using the `.datdownload` file. `dat sync` will download and keep updated on the selected files. This means you can put large datasets into Dat but have control over what files you download where.
+
+[Full release notes](https://github.com/datproject/dat/releases/tag/v13.8.0)
+
+## Added
+* Selective Sync (https://github.com/datproject/dat/pull/834)
+* Key management (https://github.com/datproject/dat/pull/828)
+
+## Changed
+* Commands run faster via lazy required modules (https://github.com/datproject/dat/pull/821)
 
 ## 13.7.0 - 2017-06-28
 ## Added
